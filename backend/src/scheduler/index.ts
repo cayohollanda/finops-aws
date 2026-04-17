@@ -1,4 +1,4 @@
-import cron, { ScheduledTask } from 'node-cron'
+import { schedule, ScheduledTask } from 'node-cron'
 
 export interface ScheduleRule {
   id: string
@@ -23,12 +23,12 @@ export class EnvironmentScheduler {
   private scheduleRule(rule: ScheduleRule) {
     if (!rule.enabled) return
 
-    const stopTask = cron.schedule(rule.stopCron, async () => {
+    const stopTask = schedule(rule.stopCron, async () => {
       console.log(`Stopping ${rule.resourceType} resources: ${rule.resourceIds.join(', ')}`)
       // TODO: call AWS SDK to stop resources
     }, { timezone: rule.timezone })
 
-    const startTask = cron.schedule(rule.startCron, async () => {
+    const startTask = schedule(rule.startCron, async () => {
       console.log(`Starting ${rule.resourceType} resources: ${rule.resourceIds.join(', ')}`)
       // TODO: call AWS SDK to start resources
     }, { timezone: rule.timezone })
