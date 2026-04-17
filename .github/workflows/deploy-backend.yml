@@ -12,9 +12,10 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Install Railway CLI
-        run: npm install -g @railway/cli@3
+        run: npm install -g @railway/cli
 
       - name: Deploy to Railway
-        run: railway up backend/ --service api --detach
+        run: railway up backend/ --detach
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          RAILWAY_SERVICE_ID: ecd11c28-d705-4b87-b907-59e2317c5514
