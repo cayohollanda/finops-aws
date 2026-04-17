@@ -40,15 +40,14 @@ jobs:
 
       - name: Install Railway CLI
         run: |
-          curl -fsSL https://github.com/railwayapp/cli/releases/latest/download/railway-linux-amd64 -o /usr/local/bin/railway
-          chmod +x /usr/local/bin/railway
+          RAILWAY_VERSION=4.40.0
+          curl -fsSL "https://github.com/railwayapp/cli/releases/download/v${RAILWAY_VERSION}/railway-v${RAILWAY_VERSION}-x86_64-unknown-linux-musl.tar.gz" -o railway.tar.gz
+          tar -xzf railway.tar.gz
+          sudo mv railway /usr/local/bin/railway
           railway --version
 
       - name: Deploy to Railway
         working-directory: backend
-        run: railway up --detach --ci
+        run: railway up --detach --ci --service ecd11c28-d705-4b87-b907-59e2317c5514
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_PROJECT_ID: 0b5539d8-1768-4be9-bf24-ede4d9041673
-          RAILWAY_SERVICE_ID: ecd11c28-d705-4b87-b907-59e2317c5514
-          RAILWAY_ENVIRONMENT_ID: 2187b42c-d412-494e-bd2b-6e399c7da6b8
