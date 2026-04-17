@@ -40,12 +40,13 @@ jobs:
 
       - name: Install Railway CLI
         run: |
-          curl -fsSL https://railway.app/install.sh | sh
-          echo "$HOME/.railway/bin" >> $GITHUB_PATH
+          curl -fsSL https://github.com/railwayapp/cli/releases/latest/download/railway-linux-amd64 -o /usr/local/bin/railway
+          chmod +x /usr/local/bin/railway
+          railway --version
 
       - name: Deploy to Railway
         working-directory: backend
-        run: railway up --detach
+        run: railway up --detach --ci
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
           RAILWAY_PROJECT_ID: 0b5539d8-1768-4be9-bf24-ede4d9041673
