@@ -2,7 +2,7 @@ import Fastify from 'fastify'
 
 const app = Fastify({ logger: true })
 
-app.get('/health', async () => ({ status: 'ok', version: '0.1.0' }))
+app.get('/health', async () => ({ status: 'ok', version: '0.1.1' }))
 
 const start = async () => {
   try {
