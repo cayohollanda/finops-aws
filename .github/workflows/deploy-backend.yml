@@ -1,21 +1,30 @@
-name: Deploy Backend (Railway)
+name: Backend CI
 
 on:
   push:
     branches: [main]
     paths: [backend/**]
+  pull_request:
+    branches: [main]
+    paths: [backend/**]
 
 jobs:
-  deploy:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-      - name: Deploy to Railway
-        run: railway up backend/ --detach
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-          RAILWAY_SERVICE_ID: ecd11c28-d705-4b87-b907-59e2317c5514
+      - name: Install dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Build
+        working-directory: backend
+        run: npm run build
+
+# Railway auto-deploys from GitHub on push to main (connected via Railway dashboard)
+# watchPatterns: backend/** — only redeploys when backend files change
