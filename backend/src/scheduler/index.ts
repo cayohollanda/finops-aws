@@ -1,4 +1,4 @@
-import cron from 'node-cron'
+import cron, { ScheduledTask } from 'node-cron'
 
 export interface ScheduleRule {
   id: string
@@ -13,7 +13,7 @@ export interface ScheduleRule {
 
 export class EnvironmentScheduler {
   private rules: ScheduleRule[] = []
-  private tasks: Map<string, cron.ScheduledTask[]> = new Map()
+  private tasks: Map<string, ScheduledTask[]> = new Map()
 
   addRule(rule: ScheduleRule) {
     this.rules.push(rule)
