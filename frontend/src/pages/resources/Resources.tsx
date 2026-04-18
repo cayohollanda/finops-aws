@@ -1,32 +1,48 @@
 import { NavLink, Outlet } from 'react-router-dom'
 
 const resourceTabs = [
-  { to: '/resources/ec2', label: 'EC2' },
-  { to: '/resources/eks', label: 'EKS' },
-  { to: '/resources/rds', label: 'RDS' },
+  { to: '/app/resources/ec2', label: 'EC2', icon: '⚡' },
+  { to: '/app/resources/eks', label: 'EKS', icon: '☸' },
+  { to: '/app/resources/rds', label: 'RDS', icon: '🗄' },
 ]
 
 export default function Resources() {
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Resources</h1>
-      <div className="flex space-x-1 mb-6 border-b border-gray-200">
+    <div className="reveal">
+      <div style={{ marginBottom: 28 }}>
+        <h1 style={{ fontFamily: '"DM Serif Display", serif', fontSize: 28, color: 'var(--text-primary)', marginBottom: 4, letterSpacing: '-0.01em' }}>
+          Resources
+        </h1>
+        <p style={{ fontSize: 14, color: 'var(--text-secondary)' }}>
+          Inventory and utilization across your AWS services.
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', gap: 4, marginBottom: 24, borderBottom: '1px solid var(--border)', paddingBottom: 0 }}>
         {resourceTabs.map((tab) => (
           <NavLink
             key={tab.to}
             to={tab.to}
-            className={({ isActive }) =>
-              `px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
-                isActive
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
-              }`
-            }
+            style={({ isActive }) => ({
+              display: 'flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '10px 18px',
+              fontSize: 13,
+              fontWeight: 500,
+              color: isActive ? 'var(--amber)' : 'var(--text-secondary)',
+              textDecoration: 'none',
+              borderBottom: isActive ? '2px solid var(--amber)' : '2px solid transparent',
+              marginBottom: -1,
+              transition: 'all 0.15s',
+            })}
           >
+            <span>{tab.icon}</span>
             {tab.label}
           </NavLink>
         ))}
       </div>
+
       <Outlet />
     </div>
   )
